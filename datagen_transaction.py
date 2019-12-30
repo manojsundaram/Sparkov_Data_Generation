@@ -12,6 +12,8 @@ import math
 from random import sample
 from random import randint
 from faker import Faker
+from faker import Factory
+from decimal import Decimal
 
 
 import profile_weights
@@ -109,13 +111,19 @@ class Customer:
             groups = t.split('|')
             trans_cat = groups[4]
             merch_filtered = merch[merch['category'] == trans_cat]
-            random_row = merch_filtered.ix[random.sample(merch_filtered.index, 1)]
+            print(type(merch_filtered))
+            print(merch_filtered)
+            print(merch_filtered.index)
+            #random_row = merch_filtered.ix[random.sample(merch_filtered.index, 1)]
+            #random_row = merch_filtered.loc[merch_filtered.index[random.sample(merch_filtered.index, 1)]]
+            random_row = merch_filtered.loc[random.sample(list(merch_filtered.index),1)]
             ##sw added list
             chosen_merchant = random_row.iloc[0]['merchant_name']
 
             cust_lat = cust.attrs['lat']
             cust_long = cust.attrs['long']
 
+            faker = Factory.create()
 
             if is_traveling:
                 # hacky math.. assuming ~70 miles per 1 decimal degree of lat/long
@@ -123,13 +131,15 @@ class Customer:
                 rad = (float(travel_max) / 100) * 1.43
 
                 #geo_coordinate() uses uniform distribution with lower = (center-rad), upper = (center+rad)
-                merch_lat = fake.geo_coordinate(center=float(cust_lat),radius=rad)
-                merch_long = fake.geo_coordinate(center=float(cust_long),radius=rad)
+                #merch_lat = fake.geo_coordinate(center=float(cust_lat),radius=rad)
+                #merch_long = fake.geo_coordinate(center=float(cust_long),radius=rad)
+                merch_lat = faker.coordinate(center=float(cust_lat),radius=rad)
+                merch_long = faker.coordinate(center=float(cust_long),radius=rad)
             else:
                 # otherwise not traveling, so use 1 decimial degree (~70mile) radius around home address
                 rad = 1
-                merch_lat = fake.geo_coordinate(center=float(cust_lat),radius=rad)
-                merch_long = fake.geo_coordinate(center=float(cust_long),radius=rad)
+                merch_lat = faker.coordinate(center=float(cust_lat),radius=rad)
+                merch_long = faker.coordinate(center=float(cust_long),radius=rad)
 
             if is_fraud == 0 and groups[1] not in fraud_dates:
             # if cust.attrs['profile'] == "male_30_40_smaller_cities.json":
@@ -184,16 +194,12 @@ if __name__ == '__main__':
             profile = profile_weights.Profile(pro, start, end)
             cust = Customer(line, profile)
             #print(cust.attrs['profile'])
-            print(curr_profile)
-            print(cust.attrs)
             if cust.attrs['profile'] == curr_profile:
-                print("in")
                 merch = pd.read_csv('data/merchants.csv', sep='|')
-                print(merch)
                 is_fraud= 0
 
                 fraud_flag = randint(0,100) # set fraud flag here, as we either gen real or fraud, not both for
-                                        # the same day.
+                                        # the same day
                 fraud_dates = []
 
 
@@ -223,7 +229,7 @@ if __name__ == '__main__':
                 # out of regular transactions
                 profile = profile_weights.Profile(pro, start, end)
                 merch = pd.read_csv('data/merchants.csv', sep='|')
-                is_fraud =0
+                is_fraud = 0
                 temp_tx_data = profile.sample_from(is_fraud)
                 cust.print_trans(temp_tx_data, is_fraud, fraud_dates)
 
