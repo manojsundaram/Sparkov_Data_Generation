@@ -111,9 +111,6 @@ class Customer:
             groups = t.split('|')
             trans_cat = groups[4]
             merch_filtered = merch[merch['category'] == trans_cat]
-            print(type(merch_filtered))
-            print(merch_filtered)
-            print(merch_filtered.index)
             #random_row = merch_filtered.ix[random.sample(merch_filtered.index, 1)]
             #random_row = merch_filtered.loc[merch_filtered.index[random.sample(merch_filtered.index, 1)]]
             random_row = merch_filtered.loc[random.sample(list(merch_filtered.index),1)]
@@ -143,11 +140,9 @@ class Customer:
 
             if is_fraud == 0 and groups[1] not in fraud_dates:
             # if cust.attrs['profile'] == "male_30_40_smaller_cities.json":
-                print("not fraud")
                 print(self.customer.replace('\n','') + '|' + t + '|' + str(chosen_merchant) + '|' + str(merch_lat) + '|' + str(merch_long))
 
             if is_fraud ==1:
-                print("Fraud")
                 print(self.customer.replace('\n','') + '|' + t + '|' + str(chosen_merchant) + '|' + str(merch_lat) + '|' + str(merch_long))
 
             #else:
