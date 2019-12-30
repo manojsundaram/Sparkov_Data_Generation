@@ -31,16 +31,16 @@ def get_user_input():
     # error handling for CL inputs
     def error_msg(n):
         if n == 1:
-            print 'Could not open customers file\n'
+            print('Could not open customers file\n')
         elif n == 2:
-            print 'Could not open main config json file\n'
+            print ('Could not open main config json file\n')
         else:
-            print 'Invalid date (MM-DD-YYYY)'
+            print('Invalid date (MM-DD-YYYY)')
         output = 'ENTER:\n(1) Customers csv file\n'
         output += '(2) profile json file\n'
         output += '(3) Start date (MM-DD-YYYY)\n'
         output += '(4) End date (MM-DD-YYYY)\n'
-        print output
+        print(output)
         sys.exit(0)
 
     try:
@@ -59,13 +59,9 @@ def get_user_input():
         #m = 'C:\Users\swarnim\PycharmProjects\data_generation\profiles\male_30_40_bigger_cities_fruad.json'
 
         pro = open(m, 'r').read()
-		
-
         pro_fraud = open(m_fraud, 'r').read()
-        
         pro_name_fraud = 'fraud_' + pro_name
         #fix for windows file paths
-
 
     except:
         error_msg(2)
@@ -88,7 +84,8 @@ def create_header(line):
     headers = line.split('|')
     headers[-1] = headers[-1].replace('\n','')
     headers.extend(['trans_num', 'trans_date', 'trans_time','unix_time', 'category', 'amt', 'is_fraud', 'merchant', 'merch_lat', 'merch_long'])
-    print ''.join([h + '|' for h in headers])[:-1]
+    #print ''.join([h + '|' for h in headers])[:-1]
+    print(''.join([h + '|' for h in headers])[:-1])
     return headers
 
 
@@ -136,10 +133,10 @@ class Customer:
 
             if is_fraud == 0 and groups[1] not in fraud_dates:
             # if cust.attrs['profile'] == "male_30_40_smaller_cities.json":
-                print self.customer.replace('\n','') + '|' + t + '|' + str(chosen_merchant) + '|' + str(merch_lat) + '|' + str(merch_long)
+                print(self.customer.replace('\n','') + '|' + t + '|' + str(chosen_merchant) + '|' + str(merch_lat) + '|' + str(merch_long))
 
             if is_fraud ==1:
-                print self.customer.replace('\n','') + '|' + t + '|' + str(chosen_merchant) + '|' + str(merch_lat) + '|' + str(merch_long)
+                print(self.customer.replace('\n','') + '|' + t + '|' + str(chosen_merchant) + '|' + str(merch_lat) + '|' + str(merch_long))
 
             #else:
                 # pass
