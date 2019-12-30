@@ -133,9 +133,11 @@ class Customer:
 
             if is_fraud == 0 and groups[1] not in fraud_dates:
             # if cust.attrs['profile'] == "male_30_40_smaller_cities.json":
+                print("not fraud")
                 print(self.customer.replace('\n','') + '|' + t + '|' + str(chosen_merchant) + '|' + str(merch_lat) + '|' + str(merch_long))
 
             if is_fraud ==1:
+                print("Fraud")
                 print(self.customer.replace('\n','') + '|' + t + '|' + str(chosen_merchant) + '|' + str(merch_lat) + '|' + str(merch_long))
 
             #else:
@@ -172,7 +174,6 @@ if __name__ == '__main__':
     #    merch = pd.read_csv('./data/merchants.csv', sep='|')
 
     headers = create_header(customers[0])
-
     # generate Faker object to calc merchant transaction locations
     fake = Faker()
 
@@ -182,10 +183,13 @@ if __name__ == '__main__':
     for line in customers[1:]:
             profile = profile_weights.Profile(pro, start, end)
             cust = Customer(line, profile)
-
-
+            #print(cust.attrs['profile'])
+            print(curr_profile)
+            print(cust.attrs)
             if cust.attrs['profile'] == curr_profile:
+                print("in")
                 merch = pd.read_csv('data/merchants.csv', sep='|')
+                print(merch)
                 is_fraud= 0
 
                 fraud_flag = randint(0,100) # set fraud flag here, as we either gen real or fraud, not both for

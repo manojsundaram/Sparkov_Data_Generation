@@ -115,7 +115,7 @@ class Customer:
         return match[0]
 
     def print_customer(self):
-        print(str(self.ssn) + '|' + str(self.cc) + '|' + self.first + '|' + self.last + '|' + self.gender + '|' + self.street + '|' + self.addy + '|' + self.job + '|' + str(self.dob) + '|' + str(self.account) + '|')
+        print(str(self.ssn) + '|' + str(self.cc) + '|' + self.first + '|' + self.last + '|' + self.gender + '|' + self.street + '|' + self.addy + '|' + self.job + '|' + str(self.dob) + '|' + str(self.account) + '|' + self.profile)
         self.profile
 
 
