@@ -1,8 +1,10 @@
 ###
 # Generates n merchants per category, to be piped into demographic_data/merchants.csv
-# >python static_merchant_generator.py >> ./data/merchants.csv
 ###
-__author__ = 'Brandon Harris - brandonharris.io'
+__author__ = 'Manoj Shanmugasundaram, Brandon Harris'
+__version__ = "2.0"
+__email__ = "manoj.sundaram21@gmail.com"
+
 from faker import Factory
 
 n = 500
@@ -26,8 +28,8 @@ category_list = ["gas_transport",
                  "kids_pets",
                  "personal_care",
                  "travel"]
-print header
+print(header)
 
 for c in category_list:
     for _ in range(0, n):
-        print c + "|" + 'fraud_' + fake.company()
+        print(c + "|" + 'fraud_' + fake.company())
